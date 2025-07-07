@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -14,15 +16,26 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    private func findVideo(){
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
+        playVideo()
+    }
+
+    private func playVideo() {
         guard let path = Bundle.main.path(forResource: "video", ofType: "mp4") else {
-            debugPrint("Video not found")
+            debugPrint("No video found")
             return
         }
         
-    }
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerController = AVPlayerViewController()
+        playerController.player = player
+        present(playerController, animated: true) {
+            player.play()
+        }
 
+    }
 
 }
 
